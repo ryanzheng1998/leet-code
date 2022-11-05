@@ -1,0 +1,22 @@
+{
+  "name": "leet-code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanzheng1998/leet-code.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryanzheng1998/leet-code/issues"
+  },
+  "homepage": "https://github.com/ryanzheng1998/leet-code#readme",
+  "dependencies": {
+    "typescript": "^4.8.4"
+  }
+}
