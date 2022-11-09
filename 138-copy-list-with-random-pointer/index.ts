@@ -13,7 +13,6 @@ class Node {
 
 const copyRandomList = (head: Node | null): Node | null => {
   const weakMap = new WeakMap<Node, Node>()
-
   const originalHead = head
 
   while (head !== null) {
@@ -22,7 +21,6 @@ const copyRandomList = (head: Node | null): Node | null => {
   }
 
   head = originalHead
-
   while (head !== null) {
     const newNode = weakMap.get(head)
     if (newNode === undefined) throw new Error('Impossible')

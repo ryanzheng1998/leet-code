@@ -8,6 +8,7 @@ const partitionLabels = (s: string): number[] => {
   }
 
   const result: number[] = []
+  let start = 0
   let currentMax = 0
 
   for (const [i, char] of s.split('').entries()) {
@@ -17,7 +18,8 @@ const partitionLabels = (s: string): number[] => {
     currentMax = Math.max(currentMax, lastIndex)
 
     if (i === currentMax) {
-      result.push(currentMax + 1)
+      result.push(currentMax + 1 - start)
+      start = currentMax + 1
     }
   }
 
