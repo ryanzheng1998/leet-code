@@ -5,3 +5,6 @@ select
     sum(duration) as total_duration
 from
     calls
+group by
+    person1,
+    person2
