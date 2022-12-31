@@ -1,5 +1,27 @@
 // quick select
-const findKthLargest = (nums: number[], k: number): number => {}
+const findKthLargest = (nums: number[], k: number): number => {
+  return quickSelect([0, nums.length - 1], nums.length - 1 - k, nums)
+}
+
+const quickSelect = (
+  range: [number, number],
+  kthSmallest: number,
+  nums: number[]
+): number => {
+  const random = range[0] // make the algorithm deterministic
+
+  const pivotIndex = partition(random, range, nums)
+
+  if (kthSmallest === pivotIndex) return nums[pivotIndex]!
+
+  return quickSelect(
+    kthSmallest < pivotIndex
+      ? [range[0]!, pivotIndex - 1]
+      : [pivotIndex + 1, range[1]!],
+    kthSmallest,
+    nums
+  )
+}
 
 const partition = (
   pivotIndex: number,
@@ -34,7 +56,10 @@ const partition = (
     j--
   }
 
-  const theIndex = j // ??
+  const thePivotIndex = i + 1
+  nums[thePivotIndex] = pivot
+
+  return thePivotIndex
 }
 
 // -----------------------------------------
