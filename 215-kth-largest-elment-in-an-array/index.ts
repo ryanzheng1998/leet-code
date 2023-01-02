@@ -1,65 +1,84 @@
 // quick select
 const findKthLargest = (nums: number[], k: number): number => {
-  return quickSelect([0, nums.length - 1], nums.length - 1 - k, nums)
+  // nums.length - k turn the problem from `find kth largest` to `find kth smallest` with zero
+  return quickSelect(nums, nums.length - k)
 }
 
-const quickSelect = (
-  range: [number, number],
-  kthSmallest: number,
-  nums: number[]
+const quickSelect = (nums: number[], tragetIndex: number): number => {
+  let i = 0
+  let j = nums.length - 1
+  let pivotOrder = -1
+
+  while (pivotOrder !== tragetIndex) {
+    const newPivotOrder = partition(nums, i, j)
+
+    const resultOnTheLeft = newPivotOrder > tragetIndex
+    i = resultOnTheLeft ? i : newPivotOrder + 1
+    j = resultOnTheLeft ? newPivotOrder - 1 : j
+    pivotOrder = newPivotOrder
+  }
+
+  return nums[pivotOrder]!
+}
+
+const quickSelect2 = (nums: number[], targetIndex: number): number => {
+  return quickSelect2Helper(nums, targetIndex, 0, nums.length - 1)
+}
+
+const quickSelect2Helper = (
+  nums: number[],
+  targetIndex: number,
+  lowerBound: number,
+  upperBound: number
 ): number => {
-  const random = range[0] // make the algorithm deterministic
+  const pivotOrder = partition(nums, lowerBound, upperBound)
 
-  const pivotIndex = partition(random, range, nums)
+  if (pivotOrder === targetIndex) return nums[pivotOrder]!
 
-  if (kthSmallest === pivotIndex) return nums[pivotIndex]!
+  const resultOnTheLeft = pivotOrder > targetIndex
+  const newLowerBound = resultOnTheLeft ? lowerBound : pivotOrder + 1
+  const newUpperBound = resultOnTheLeft ? pivotOrder - 1 : upperBound
 
-  return quickSelect(
-    kthSmallest < pivotIndex
-      ? [range[0]!, pivotIndex - 1]
-      : [pivotIndex + 1, range[1]!],
-    kthSmallest,
-    nums
-  )
+  return quickSelect2Helper(nums, targetIndex, newLowerBound, newUpperBound)
 }
 
+// the algorithm said you can choose the pivot point randomly
+// so I choose the first element every time
 const partition = (
-  pivotIndex: number,
-  range: [number, number],
-  nums: number[]
-) => {
-  const pivot = nums[pivotIndex]!
+  nums: number[],
+  lowerBound: number,
+  upperBound: number
+): number => {
+  const pivot = nums[lowerBound]
+  let i = lowerBound + 1
+  let j = upperBound
 
-  // take pivot out
-  nums[pivotIndex] = nums[range[1]]!
+  if (pivot === undefined) return -1
 
-  let i = range[0]
-  let j = range[1] - 1
+  while (i <= j) {
+    const valueI = nums[i]!
+    const valueJ = nums[j]!
 
-  while (i < j) {
-    const iVal = nums[i]!
-    const jVal = nums[j]!
-
-    if (iVal < pivot) {
+    if (valueI < pivot) {
       i++
       continue
     }
 
-    if (jVal > pivot) {
+    if (valueJ >= pivot) {
       j--
       continue
     }
 
-    nums[i] = jVal
-    nums[j] = iVal
+    nums[i] = valueJ
+    nums[j] = valueI
     i++
     j--
   }
 
-  const thePivotIndex = i + 1
-  nums[thePivotIndex] = pivot
+  nums[lowerBound] = nums[j]!
+  nums[j] = pivot
 
-  return thePivotIndex
+  return j
 }
 
 // -----------------------------------------
