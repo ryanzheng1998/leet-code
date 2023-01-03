@@ -7,18 +7,18 @@ const findKthLargest = (nums: number[], k: number): number => {
 const quickSelect = (nums: number[], tragetIndex: number): number => {
   let i = 0
   let j = nums.length - 1
-  let pivotOrder = -1
+  let iterationCount = 0 // prevent infine loop
 
-  while (pivotOrder !== tragetIndex) {
-    const newPivotOrder = partition(nums, i, j)
+  while (iterationCount < 100000000) {
+    const pivotOrder = partition(nums, i, j)
 
-    const resultOnTheLeft = newPivotOrder > tragetIndex
-    i = resultOnTheLeft ? i : newPivotOrder + 1
-    j = resultOnTheLeft ? newPivotOrder - 1 : j
-    pivotOrder = newPivotOrder
+    if (pivotOrder === tragetIndex) return nums[pivotOrder]!
+
+    const resultOnTheLeft = pivotOrder > tragetIndex
+    i = resultOnTheLeft ? i : pivotOrder + 1
+    j = resultOnTheLeft ? pivotOrder - 1 : j
+    iterationCount++
   }
-
-  return nums[pivotOrder]!
 }
 
 const quickSelect2 = (nums: number[], targetIndex: number): number => {
