@@ -19,6 +19,8 @@ const quickSelect = (nums: number[], tragetIndex: number): number => {
     j = resultOnTheLeft ? pivotOrder - 1 : j
     iterationCount++
   }
+
+  throw new Error('impossible')
 }
 
 const quickSelect2 = (nums: number[], targetIndex: number): number => {
